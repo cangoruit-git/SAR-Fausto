@@ -753,15 +753,17 @@ Estas decisiones **determinan la arquitectura** y no pueden diferirse sin diseñ
 | ID | Decisión | Opciones | Consecuencia principal | Reversibilidad |
 | --- | --- | --- | --- | --- |
 | `QD-001` | Identidad: nombre, significado de "SAR", licencia, visibilidad del repo | (a) definir ahora · (b) provisional y revisar en G4 | Identidad pública, obligaciones de licencia | Fácil |
-| `QD-002` | Modelo de dispositivo y cuenta | (a) 1 dispositivo compartido · (b) 2 cuentas, 2 dispositivos · (c) híbrido con modo compartido | Define todo el modelo de privacidad y amenazas | **Difícil** |
-| `QD-003` | Local-first vs nube | (a) local-first (sin nube) · (b) nube con cifrado · (c) híbrido | Privacidad, costo, disponibilidad offline, capacidad de análisis | **Difícil** |
-| `QD-004` | Flujo de datos al LLM | (a) proveedor con retención cero y sin entrenamiento · (b) modelo local · (c) sin LLM en el MVP | Costo, latencia, calidad, riesgo de fuga | Difícil |
+| ✅ `QD-002` | **RESUELTA 2026-09-15** — dos cuentas independientes, una por persona | → `docs/adr/ADR-0001-cuentas-independientes.md` | Obliga: `G-SAFE-3` subsiste, espacio compartido construido y no inferido, prohibición de contadores cross-account | Registrada |
+| ✅ `QD-003` | **RESUELTA 2026-09-15** — despliegue en nube | → `docs/adr/ADR-0002-nube.md` | Obliga: `THR-OPERATOR` al modelo de amenazas, DPIA bloqueante, residencia declarada, columna de privacidad antes que funcionalidades | Registrada |
+| ✅ `QD-004` | **RESUELTA 2026-09-15** — cifrado en tránsito y reposo, sin custodia de claves por cuenta | → `docs/adr/ADR-0003-cifrado-sin-custodia-de-claves.md` | Obliga: `RET-###` con retención máxima, costura de cifrado única, soporte sin acceso a contenido, auditoría de acceso interno; acepta `RISK-001` | Registrada |
 | `QD-005` | Alcance del producto | (a) mantenimiento de relación existente · (b) formación inicial · (c) ambos · (d) individuo que reflexiona solo | Qué modelos se diseñan; "formación" introduce un problema de dominio distinto | Difícil |
 | `QD-006` | No-objetivos explícitos | Confirmar: no terapia, no diagnóstico, no compatibilidad, no consejo romántico, no predicción, no red social, no arbitraje | Evita deriva de alcance | Fácil |
 | `QD-007` | Piloto con personas reales | (a) sí, con DPIA y consentimiento de investigación · (b) solo datos sintéticos y propios por ahora | Riesgo ético y legal; valor de aprendizaje | Media |
 | `QD-008` | Autorización del carril spike | (a) autorizar 1 spike con alcance nombrado · (b) no autorizar | Velocidad de aprendizaje | Fácil |
 
-**Recomendación técnica (no vinculante):** `QD-002` = (c) híbrido con **modo compartido por defecto**; `QD-003` = (a) local-first en el MVP; `QD-004` = (a) con contrato sin entrenamiento y composición por vista; `QD-005` = (a) mantenimiento primero, formación como módulo separado posterior; `QD-007` = (b) primero; `QD-008` = (a).
+**Recomendación técnica (no vinculante):** `QD-005` = (a) mantenimiento primero, formación como módulo separado posterior; `QD-007` = (b) primero — con `RISK-001` aceptado en `ADR-0003`, el piloto con parejas reales exige que retención, aislamiento y auditoría ya existan y estén testeados; `QD-008` = (a).
+
+**Las decisiones resueltas no se reescriben acá.** Su contenido normativo, sus consecuencias y lo que obligan viven únicamente en los ADR referenciados (§3.1, regla de no duplicación). El estado vivo está en `PROJECT_STATUS.md`.
 
 ---
 
@@ -785,7 +787,7 @@ Corregir el plan no elimina estos riesgos. Se declaran para que no se descubran 
 # 19. PRIMERA ACCIÓN DEL AGENTE CON ESTE DOCUMENTO
 
 1. **DETENERSE.** No programar producto.
-2. Presentar al humano las decisiones `QD-001` a `QD-008` (§17) con el formato de la Spec §37.
+2. Presentar al humano las decisiones pendientes `QD-001` y `QD-005` a `QD-008` (§17) con el formato de la Spec §37.
 3. Crear únicamente los artefactos de **G0** autorizados por esas decisiones.
 4. **No** iniciar G1 hasta que G0 esté aprobada.
 5. **No** crear archivos vacíos, ni scaffolding, ni backend, ni base de datos, ni prompts.
@@ -794,14 +796,6 @@ Corregir el plan no elimina estos riesgos. Se declaran para que no se descubran 
 
 # FIN DEL PLAN MAESTRO v2
 
-**Estado del proyecto tras esta revisión:**
+**Estado del proyecto:** ver `PROJECT_STATUS.md`.
 
-```text
-PROJECT_STATUS        = G0_PENDIENTE_DE_DECISIONES_P0
-IMPLEMENTATION_AUTHORIZED = false
-SPIKE_AUTHORIZED          = false  (pendiente QD-008)
-DOMAIN_MODEL_APPROVED     = false
-ARCHITECTURE_APPROVED     = false
-MVP_APPROVED              = false
-REVIEW_FINDINGS           = 40 hallazgos registrados (§1)
-```
+Este plan no duplica el estado vivo: el estado del proyecto es un único artefacto de nivel N5 (§3.1).
